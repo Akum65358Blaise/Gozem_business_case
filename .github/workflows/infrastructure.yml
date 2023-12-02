@@ -25,10 +25,10 @@ jobs:
           terraform_version: 1.6.5  # Change this to your desired Terraform version
 
       - name: Terraform Init
-        run: terraform init infrastructure
+        run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan infrastructure
+        run: terraform plan -out=tfplan
 
      # - name: Terraform Apply
      #   run: terraform apply -auto-approve tfplan
