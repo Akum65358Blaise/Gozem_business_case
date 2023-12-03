@@ -62,8 +62,8 @@ resource "aws_security_group" "my_sg" {
   }
 }
 
-resource "aws_lb" "gozem_my_lb" {
-  name               = "gozem_my_lb"
+resource "aws_lb" "gozem-my-lb" {
+  name               = "gozem-my-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.my_sg.id]
