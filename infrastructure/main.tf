@@ -33,6 +33,7 @@ resource "aws_subnet" "gozem_public_subnet2" {
 resource "aws_security_group" "my_sg" {
   name        = "gozem-lb-security-group"
   description = "Security group for the Load Balancer"
+  vpc_id      = aws_vpc.gozem_business_case_vpc.id
 
   ingress {
     from_port   = 80
