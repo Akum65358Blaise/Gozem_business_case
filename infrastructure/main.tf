@@ -31,7 +31,7 @@ resource "aws_subnet" "gozem_public_subnet2" {
 }
 
 resource "aws_security_group" "my_sg" {
-  name        = "gozem-lb-security-group-1"
+  name        = "gozem-lb-security-group"
   description = "Security group for the Load Balancer"
 
   ingress {
@@ -59,7 +59,9 @@ resource "aws_route_table_association" "public_subnet2_association" {
   subnet_id      = aws_subnet.gozem_public_subnet2.id
   route_table_id = aws_route_table.gozem_public_subnet2_rt.id
 }
-
+resource "aws_internet_gateway" "gozem_internet_gateway" {
+  vpc_id = aws_vpc.gozem_business_case_vpc.id
+}
 resource "aws_lb" "gozem-my-lb" {
   name               = "gozem-my-lb"
   internal           = false
@@ -69,7 +71,7 @@ resource "aws_lb" "gozem-my-lb" {
 }
 
 resource "aws_launch_configuration" "gozem_my_launch_config" {
-  name = "gozem_my_launch_config-1"
+  name = "gozem_my_launch_config"
   image_id = "ami-0230bd60aa48260c6"
   instance_type = "t2.micro"
   // Add other configurations as needed
