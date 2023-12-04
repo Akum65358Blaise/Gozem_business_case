@@ -34,6 +34,7 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
+        working-directory: ./infrastructure
 
       # Add more steps as needed, such as running scripts or deploying your application
 
