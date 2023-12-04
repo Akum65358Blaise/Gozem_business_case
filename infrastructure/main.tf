@@ -2,29 +2,18 @@ resource "aws_vpc" "gozem_business_case_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
+
   tags = {
     Name = "gozem_business_case_vpc"
   }
 }
-resource "aws_internet_gateway" "my_igw" {
-  vpc_id = aws_vpc.gozem_business_case_vpc.id
-}
-resource "aws_route_table_association" "public_subnet1_association" {
-  subnet_id      = aws_subnet.gozem_public_subnet1.id
-  route_table_id = aws_route_table.gozem_public_subnet1_rt.id
-}
-
-resource "aws_route_table_association" "public_subnet2_association" {
-  subnet_id      = aws_subnet.gozem_public_subnet2.id
-  route_table_id = aws_route_table.gozem_public_subnet2_rt.id
-}
-
 
 resource "aws_subnet" "gozem_public_subnet1" {
   vpc_id                  = aws_vpc.gozem_business_case_vpc.id
-  cidr_block             = "10.0.1.0/24"
+  cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
+
   tags = {
     Name = "gozem_public_subnet1"
   }
@@ -32,31 +21,12 @@ resource "aws_subnet" "gozem_public_subnet1" {
 
 resource "aws_subnet" "gozem_public_subnet2" {
   vpc_id                  = aws_vpc.gozem_business_case_vpc.id
-  cidr_block             = "10.0.2.0/24"
+  cidr_block              = "10.0.2.0/24"
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
+
   tags = {
     Name = "gozem_public_subnet2"
-  }
-}
-
-resource "aws_subnet" "gozem_private_subnet1" {
-  vpc_id                  = aws_vpc.gozem_business_case_vpc.id
-  cidr_block             = "10.0.3.0/24"
-  availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = false
-  tags = {
-    Name = "gozem_private_subnet1"
-  }
-}
-
-resource "aws_subnet" "gozem_private_subnet2" {
-  vpc_id                  = aws_vpc.gozem_business_case_vpc.id
-  cidr_block             = "10.0.4.0/24"
-  availability_zone       = "us-east-1b"
-  map_public_ip_on_launch = false
-  tags = {
-    Name = "gozem_private_subnet2"
   }
 }
 
@@ -70,6 +40,24 @@ resource "aws_security_group" "my_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_route_table" "gozem_public_subnet1_rt" {
+  vpc_id = aws_vpc.gozem_business_case_vpc.id
+}
+
+resource "aws_route_table" "gozem_public_subnet2_rt" {
+  vpc_id = aws_vpc.gozem_business_case_vpc.id
+}
+
+resource "aws_route_table_association" "public_subnet1_association" {
+  subnet_id      = aws_subnet.gozem_public_subnet1.id
+  route_table_id = aws_route_table.gozem_public_subnet1_rt.id
+}
+
+resource "aws_route_table_association" "public_subnet2_association" {
+  subnet_id      = aws_subnet.gozem_public_subnet2.id
+  route_table_id = aws_route_table.gozem_public_subnet2_rt.id
 }
 
 resource "aws_lb" "gozem-my-lb" {
