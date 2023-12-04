@@ -6,6 +6,19 @@ resource "aws_vpc" "gozem_business_case_vpc" {
     Name = "gozem_business_case_vpc"
   }
 }
+resource "aws_internet_gateway" "my_igw" {
+  vpc_id = aws_vpc.gozem_business_case_vpc.id
+}
+resource "aws_route_table_association" "public_subnet1_association" {
+  subnet_id      = aws_subnet.gozem_public_subnet1.id
+  route_table_id = aws_route_table.gozem_public_subnet1_rt.id
+}
+
+resource "aws_route_table_association" "public_subnet2_association" {
+  subnet_id      = aws_subnet.gozem_public_subnet2.id
+  route_table_id = aws_route_table.gozem_public_subnet2_rt.id
+}
+
 
 resource "aws_subnet" "gozem_public_subnet1" {
   vpc_id                  = aws_vpc.gozem_business_case_vpc.id
