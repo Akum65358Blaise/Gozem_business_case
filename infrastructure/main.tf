@@ -31,7 +31,7 @@ resource "aws_subnet" "gozem_public_subnet2" {
 }
 
 resource "aws_security_group" "my_sg" {
-  name        = "gozem-lb-security-group"
+  name        = "gozem-lb-security-group-1"
   description = "Security group for the Load Balancer"
 
   ingress {
@@ -69,7 +69,7 @@ resource "aws_lb" "gozem-my-lb" {
 }
 
 resource "aws_launch_configuration" "gozem_my_launch_config" {
-  name = "gozem_my_launch_config"
+  name = "gozem_my_launch_config-1"
   image_id = "ami-0230bd60aa48260c6"
   instance_type = "t2.micro"
   // Add other configurations as needed
