@@ -1,6 +1,6 @@
 resource "aws_vpc" "gozem_business_case_vpc" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
     Name = "gozem_business_case_vpc"
@@ -27,7 +27,7 @@ resource "aws_subnet" "gozem_public_subnet2" {
   }
 }
 
-resource "aws_subnet" "gozem_gozem_private_subnet1" {
+resource "aws_subnet" "gozem_private_subnet1" {
   vpc_id                  = aws_vpc.gozem_business_case_vpc.id
   cidr_block             = "10.0.3.0/24"
   availability_zone       = "us-east-1a"
@@ -47,10 +47,7 @@ resource "aws_subnet" "gozem_private_subnet2" {
   }
 }
 
-// Add other necessary configurations for the VPC, such as Internet Gateway, Route Tables, etc.
-
 resource "aws_security_group" "my_sg" {
-  // Define security group rules as needed
   name        = "gozem-lb-security-group"
   description = "Security group for the Load Balancer"
 
@@ -70,7 +67,6 @@ resource "aws_lb" "gozem-my-lb" {
   subnets            = [aws_subnet.gozem_public_subnet1.id, aws_subnet.gozem_public_subnet2.id]
 }
 
-
 resource "aws_launch_configuration" "gozem_my_launch_config" {
   name = "gozem_my_launch_config"
   image_id = "ami-0230bd60aa48260c6"
@@ -84,5 +80,13 @@ resource "aws_autoscaling_group" "my_asg" {
   min_size             = 1
   launch_configuration = aws_launch_configuration.gozem_my_launch_config.id
   vpc_zone_identifier  = [aws_subnet.gozem_public_subnet1.id, aws_subnet.gozem_public_subnet2.id]
-}
 
+  // Add IAM instance profile associated with the role having EC2 launch permissions
+  // Replace "your-iam-instance-profile" with your IAM instance profile
+  launch_template {
+    version = "$Latest"
+    iam_instance_profile {
+      name = "gozem-ec2-lauch-role"
+    }
+  }
+}
