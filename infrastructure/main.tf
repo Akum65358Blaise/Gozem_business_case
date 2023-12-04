@@ -85,8 +85,9 @@ resource "aws_autoscaling_group" "my_asg" {
   // Replace "your-iam-instance-profile" with your IAM instance profile
   launch_template {
     version = "$Latest"
+    
     iam_instance_profile {
-      name = "gozem-ec2-lauch-role"
+      name = "gozem-ec2-lauch-role"  # Replace with the actual name of your IAM instance profile
     }
   }
 }
