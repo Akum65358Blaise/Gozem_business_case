@@ -72,6 +72,7 @@ resource "aws_launch_configuration" "gozem_my_launch_config" {
   image_id = "ami-0230bd60aa48260c6"
   instance_type = "t2.micro"
   // Add other configurations as needed
+  iam_instance_profile = "gozem-ec2-lauch-role"
 }
 
 resource "aws_autoscaling_group" "my_asg" {
@@ -81,13 +82,4 @@ resource "aws_autoscaling_group" "my_asg" {
   launch_configuration = aws_launch_configuration.gozem_my_launch_config.id
   vpc_zone_identifier  = [aws_subnet.gozem_public_subnet1.id, aws_subnet.gozem_public_subnet2.id]
 
-  // Add IAM instance profile associated with the role having EC2 launch permissions
-  // Replace "your-iam-instance-profile" with your IAM instance profile
-  launch_template {
-    version = "$Latest"
-    
-    iam_instance_profile {
-      name = "gozem-ec2-lauch-role"  # Replace with the actual name of your IAM instance profile
-    }
-  }
 }
