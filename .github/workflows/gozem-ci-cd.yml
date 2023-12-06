@@ -3,7 +3,7 @@ name: Deploy to Test Server
 on:
   push:
     branches:
-      - custom-branch
+      - main
 
 jobs:
   build:
