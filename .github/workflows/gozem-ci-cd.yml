@@ -24,7 +24,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest ./application
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest
 
