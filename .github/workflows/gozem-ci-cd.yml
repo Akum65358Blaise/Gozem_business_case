@@ -24,9 +24,9 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/your-node-app:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest .
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/your-node-app:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest
 
     - name: SSH into EC2 and Deploy
       uses: appleboy/ssh-action@master
@@ -35,5 +35,5 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/your-node-app:latest
-          docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/your-node-app:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest
+          docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/gozem-node-app:latest
