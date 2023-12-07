@@ -1,3 +1,4 @@
+//define resource to create your VPC
 resource "aws_vpc" "gozem_business_case_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -7,7 +8,7 @@ resource "aws_vpc" "gozem_business_case_vpc" {
     Name = "gozem_business_case_vpc"
   }
 }
-
+//create public subnets
 resource "aws_subnet" "gozem_public_subnet1" {
   vpc_id                  = aws_vpc.gozem_business_case_vpc.id
   cidr_block              = "10.0.1.0/24"
@@ -29,7 +30,7 @@ resource "aws_subnet" "gozem_public_subnet2" {
     Name = "gozem_public_subnet2"
   }
 }
-
+//create security group
 resource "aws_security_group" "my_sg" {
   name        = "gozem-lb-security-group"
   description = "Security group for the Load Balancer"
@@ -42,7 +43,7 @@ resource "aws_security_group" "my_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
+//create route table
 resource "aws_route_table" "gozem_public_subnet1_rt" {
   vpc_id = aws_vpc.gozem_business_case_vpc.id
 }
@@ -63,6 +64,7 @@ resource "aws_route_table_association" "public_subnet2_association" {
 resource "aws_internet_gateway" "gozem_internet_gateway" {
   vpc_id = aws_vpc.gozem_business_case_vpc.id
 }
+//create loadbalancer
 resource "aws_lb" "gozem-my-lb" {
   name               = "gozem-my-lb"
   internal           = false
@@ -71,6 +73,7 @@ resource "aws_lb" "gozem-my-lb" {
   subnets            = [aws_subnet.gozem_public_subnet1.id, aws_subnet.gozem_public_subnet2.id]
 }
 
+//create launch configuration
 resource "aws_launch_configuration" "gozem_my_launch_config" {
   name = "gozem_my_launch_config"
   image_id = "ami-0230bd60aa48260c6"
